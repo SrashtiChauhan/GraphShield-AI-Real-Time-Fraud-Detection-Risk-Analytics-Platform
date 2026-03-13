@@ -45,7 +45,6 @@ def predict(transaction: Transaction):
     # explainable AI
     explanation = explain_prediction(transaction.features)
 
-
     return {
         "fraud_probability": fraud_probability,
         "prediction": prediction,
