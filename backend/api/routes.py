@@ -8,6 +8,7 @@ from backend.services.alert_service import generate_alert
 from backend.services.behavior_service import detect_behavior_anomaly
 from backend.services.graph_service import add_transaction, detect_suspicious_device
 from backend.utils.explainability import explain_prediction
+from backend.utils.preprocessing import preprocess_transaction
 
 router = APIRouter()
 
@@ -22,7 +23,9 @@ class Transaction(BaseModel):
 def predict(transaction: Transaction):
 
     # ML prediction
-    result = predict_fraud(transaction.features)
+    features = preprocess_transaction(transaction.features)
+    result = predict_fraud(features)
+    
 
     fraud_probability = result["fraud_probability"]
     prediction = result["prediction"]
