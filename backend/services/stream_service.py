@@ -1,30 +1,13 @@
 import random
-import time
 
+# possible values
+locations = ["Delhi", "Mumbai", "Bangalore", "Chennai"]
+risk_levels = ["LOW", "MEDIUM", "HIGH"]
 
 def generate_transaction():
-    """
-    Simulate a random transaction
-    """
-
-    transaction = {
+    return {
         "user_id": random.randint(100, 200),
-        "device_id": f"device_{random.randint(1,5)}",
-        "amount": round(random.uniform(10, 5000), 2)
+        "amount": round(random.uniform(100, 5000), 2),
+        "location": random.choice(locations),
+        "risk_level": random.choice(risk_levels)
     }
-
-    return transaction
-
-
-def start_transaction_stream(interval=3):
-    """
-    Generate transactions every few seconds
-    """
-
-    while True:
-
-        tx = generate_transaction()
-
-        print("New Transaction:", tx)
-
-        time.sleep(interval)
