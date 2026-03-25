@@ -1,33 +1,31 @@
 import { useState } from "react";
 import API from "../services/api";
 
-export default function Login() {
+export default function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async () => {
+  const handleSignup = async () => {
     try {
-      const res = await API.post("/login", {
+      await API.post("/signup", {
         username,
         password
       });
 
-      // store token
-      localStorage.setItem("token", res.data.access_token);
+      alert("Signup successful! Please login.");
 
-      alert("Login successful");
-
-      window.location.href = "/";
+      // redirect to login
+      window.location.href = "/login";
       
     } catch (err) {
-      alert("Login failed");
+      alert("Signup failed (user may already exist)");
     }
   };
 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
       <div className="bg-white p-6 rounded shadow w-80">
-        <h2 className="text-xl font-bold mb-4">Login</h2>
+        <h2 className="text-xl font-bold mb-4">Signup</h2>
 
         <input
           type="text"
@@ -45,24 +43,13 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        {/* ✅ Login Button */}
         <button
-          onClick={handleLogin}
-          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+          onClick={handleSignup}
+          className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700"
         >
-          Login
+            
+          Signup
         </button>
-
-        {/* ✅ Signup Link (OUTSIDE button) */}
-        <p className="text-sm mt-3 text-center">
-          Don't have an account?{" "}
-          <span
-            className="text-blue-600 cursor-pointer"
-            onClick={() => (window.location.href = "/signup")}
-          >
-            Signup
-          </span>
-        </p>
       </div>
     </div>
   );
