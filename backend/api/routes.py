@@ -1,6 +1,12 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 from typing import List
+from sqlalchemy.orm import Session
+
+# DB
+from backend.database.db import get_db
+from backend.models.models import Transaction as DBTransaction
+from backend.models.models import Alert as DBAlert
 
 # ML + Utils
 from backend.services.fraud_service import predict_fraud
@@ -12,13 +18,14 @@ from backend.utils.preprocessing import preprocess_transaction
 
 # Graph + Stream
 from backend.services.graph_service import (
-    add_transaction,
+    add_transaction as graph_add_transaction,
     detect_suspicious_device,
     get_graph_data
 )
 from backend.services.stream_service import generate_transaction
 
 router = APIRouter()
+
 
 # =======================
 # 📊 GRAPH API
@@ -38,10 +45,10 @@ class Transaction(BaseModel):
 
 
 # =======================
-# 🤖 PREDICTION API
+# 🤖 PREDICTION API (ML + GRAPH + DB + ALERT)
 # =======================
 @router.post("/predict")
-def predict(transaction: Transaction):
+def predict(transaction: Transaction, db: Session = Depends(get_db)):
 
     # ML prediction
     features = preprocess_transaction(transaction.features)
@@ -62,11 +69,36 @@ def predict(transaction: Transaction):
     behavior = detect_behavior_anomaly(amount, avg_amount)
 
     # graph fraud detection
-    add_transaction(transaction.user_id, transaction.device_id)
+    graph_add_transaction(transaction.user_id, transaction.device_id)
     graph_result = detect_suspicious_device(transaction.device_id)
 
     # explainability
     explanation = explain_prediction(transaction.features)
+
+    # ✅ STORE TRANSACTION IN DB
+    new_tx = DBTransaction(
+        user_id=transaction.user_id,
+        device_id=transaction.device_id,
+        amount=amount,
+        location="India",
+        fraud_probability=fraud_probability,
+        risk_level=risk_level
+    )
+
+    db.add(new_tx)
+    db.commit()
+    db.refresh(new_tx)
+
+    # 🚨 STORE ALERT (ONLY HIGH RISK)
+    if risk_level == "HIGH":
+        new_alert = DBAlert(
+            transaction_id=new_tx.id,
+            risk_level=risk_level,
+            reason=alert_info["message"]
+        )
+
+        db.add(new_alert)
+        db.commit()
 
     return {
         "fraud_probability": fraud_probability,
@@ -83,26 +115,85 @@ def predict(transaction: Transaction):
 
 
 # =======================
-# 🔄 REAL-TIME TRANSACTIONS API
+# 🔄 REAL-TIME TRANSACTIONS (STORE IN DB)
 # =======================
+@router.post("/transaction")
+def create_transaction(db: Session = Depends(get_db)):
 
-transactions_store = []
+    tx = generate_transaction()
 
+    # risk logic
+    if tx["amount"] > 3000:
+        risk = "HIGH"
+    elif tx["amount"] > 1000:
+        risk = "MEDIUM"
+    else:
+        risk = "LOW"
+
+    # graph update
+    graph_add_transaction(tx["user_id"], tx["device_id"])
+
+    # store in DB
+    new_tx = DBTransaction(
+        user_id=tx["user_id"],
+        device_id=tx["device_id"],
+        amount=tx["amount"],
+        location=tx["location"],
+        fraud_probability=0.5,
+        risk_level=risk
+    )
+
+    db.add(new_tx)
+    db.commit()
+
+    return {"message": "Transaction stored"}
+
+
+# =======================
+# 📊 GET TRANSACTIONS
+# =======================
 @router.get("/transactions")
-def get_transactions():
-    global transactions_store
+def get_transactions(db: Session = Depends(get_db)):
 
-    # generate new transaction
-    new_tx = generate_transaction()
+    transactions = (
+        db.query(DBTransaction)
+        .order_by(DBTransaction.id.desc())
+        .limit(10)
+        .all()
+    )
 
-    # ✅ ADD TO GRAPH (VERY IMPORTANT)
-    device_id = f"device_{new_tx['user_id'] % 5}"
-    add_transaction(new_tx["user_id"], device_id)
+    return transactions
 
-    # add to store
-    transactions_store.insert(0, new_tx)
 
-    # keep last 10
-    transactions_store = transactions_store[:10]
+# =======================
+# 🚨 GET ALERTS
+# =======================
+@router.get("/alerts")
+def get_alerts(db: Session = Depends(get_db)):
 
-    return transactions_store
+    alerts = (
+        db.query(DBAlert)
+        .order_by(DBAlert.id.desc())
+        .limit(10)
+        .all()
+    )
+
+    return alerts
+
+@router.get("/analytics")
+def get_analytics(db: Session = Depends(get_db)):
+
+    transactions = db.query(DBTransaction).all()
+
+    total = len(transactions)
+
+    high = len([t for t in transactions if t.risk_level == "HIGH"])
+    medium = len([t for t in transactions if t.risk_level == "MEDIUM"])
+    low = len([t for t in transactions if t.risk_level == "LOW"])
+
+    return {
+        "total_transactions": total,
+        "high_risk": high,
+        "medium_risk": medium,
+        "low_risk": low
+    }
