@@ -197,3 +197,18 @@ def get_analytics(db: Session = Depends(get_db)):
         "medium_risk": medium,
         "low_risk": low
     }
+
+
+# =======================
+# =======================
+# 🔍 GET SINGLE TRANSACTION
+# =======================
+@router.get("/transaction/{tx_id}")
+def get_transaction(tx_id: int, db: Session = Depends(get_db)):
+
+    tx = db.query(DBTransaction).filter(DBTransaction.id == tx_id).first()
+
+    if not tx:
+        return {"error": "Transaction not found"}
+
+    return tx
