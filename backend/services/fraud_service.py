@@ -22,6 +22,3 @@ def predict_fraud(transaction_features):
     "fraud_probability": float(fraud_prob),
     "prediction": int(prediction)
 }
-
-
-

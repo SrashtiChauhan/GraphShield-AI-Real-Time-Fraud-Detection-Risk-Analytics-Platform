@@ -1,16 +1,234 @@
-# React + Vite
+# 🚀 GraphShield AI 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Real-Time Fraud Detection & Risk Analytics Platform
 
-Currently, two official plugins are available:
+![Overview](./assets/overview.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+> A full-stack fraud detection system that combines **Machine Learning, Graph Analytics, and Real-Time Processing** to detect, analyze, and visualize suspicious transactions.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📌 Overview
 
-## Expanding the ESLint configuration
+GraphShield AI is a real-time fraud detection platform built to simulate and analyze financial transactions using intelligent risk scoring and graph-based relationship tracking.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+The system processes transactions continuously, classifies risk levels, triggers alerts, and provides visual insights through dashboards and network graphs — enabling faster and more accurate fraud investigation.
+
+---
+
+## ✨ Key Features
+
+### 🔍 Intelligent Fraud Detection
+
+* ML-based fraud prediction with probability scoring
+* Risk classification: **Low / Medium / High**
+* Feature preprocessing + explainability
+
+### ⚡ Real-Time Transaction Engine
+
+* Continuous transaction simulation
+* Live dashboard updates
+* Event-driven processing pipeline
+
+### 🚨 Alert Management System
+
+* Automatic high-risk alert generation
+* Timestamped alerts with reasons
+* Investigation-ready interface
+
+### 🌐 Fraud Network Graph
+
+* Visualizes **User ↔ Device relationships**
+* Detects suspicious clusters and connections
+* Helps uncover hidden fraud patterns
+
+### 📊 Analytics Dashboard
+
+* Fraud rate and transaction insights
+* Risk distribution visualization
+* Category-based fraud trends
+
+### 🤖 Model Monitoring
+
+* Accuracy tracking over time
+* Fraud ratio monitoring
+* Drift detection (early warning signals)
+
+---
+
+## 📸 Screenshots
+
+### 🔹 Overview Dashboard
+
+![Overview](./assets/overview.png)
+
+### 🔹 Transactions Monitoring
+
+![Transactions](./assets/transactions.png)
+
+### 🔹 Fraud Alerts
+
+![Alerts](./assets/alerts.png)
+
+### 🔹 Investigation Panel
+
+![Investigation](./assets/investigation.png)
+
+### 🔹 Analytics Dashboard
+
+![Analytics](./assets/analytics.png)
+
+### 🔹 Model Monitoring
+
+![Model](./assets/model.png)
+
+### 🔹 Fraud Network Graph
+
+![Graph](./assets/graph.png)
+
+---
+
+## 🏗️ Tech Stack
+
+### Backend
+
+* FastAPI
+* SQLAlchemy
+* SQLite
+* Uvicorn
+
+### Frontend
+
+* React.js
+* Tailwind CSS
+* Recharts
+* React Force Graph
+
+### Machine Learning
+
+* Scikit-learn
+* Custom preprocessing pipeline
+
+---
+
+## 📁 Project Structure
+
+```
+GraphShield-AI/
+│
+├── backend/
+│   ├── api/
+│   ├── models/
+│   ├── services/
+│   ├── utils/
+│   └── main.py
+│
+├── frontend/
+│   ├── pages/
+│   ├── components/
+│   └── App.jsx
+│
+├── assets/        # screenshots for README
+└── README.md
+```
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1. Clone Repository
+
+```bash
+git clone https://github.com/SrashtiChauhan/GraphShield-AI-Real-Time-Fraud-Detection-Risk-Analytics-Platform.git
+cd GraphShield-AI-Real-Time-Fraud-Detection-Risk-Analytics-Platform
+```
+
+---
+
+### 2. Backend Setup
+
+```bash
+cd backend
+
+python -m venv venv
+venv\Scripts\activate        # Windows
+# source venv/bin/activate   # Mac/Linux
+
+pip install -r requirements.txt
+
+uvicorn backend.main:app --reload
+```
+
+Backend runs on:
+👉 [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+---
+
+### 3. Frontend Setup
+
+```bash
+cd frontend
+
+npm install
+npm run dev
+```
+
+Frontend runs on:
+👉 [http://localhost:5173](http://localhost:5173)
+
+---
+
+## 📡 API Endpoints
+
+| Method | Endpoint      | Description        |
+| ------ | ------------- | ------------------ |
+| POST   | /predict      | Fraud prediction   |
+| GET    | /transactions | Fetch transactions |
+| GET    | /alerts       | Fraud alerts       |
+| GET    | /graph        | Network graph data |
+| GET    | /analytics    | Dashboard insights |
+| GET    | /model-stats  | Model performance  |
+
+---
+
+## 🧠 System Workflow
+
+```
+Transaction → Preprocessing → ML Model → Risk Classification
+           → Alert Generation → Graph Update → Storage
+```
+
+---
+
+## 🔥 Highlights
+
+* Real-time fraud detection pipeline
+* Graph-based anomaly detection (USP ⭐)
+* End-to-end full-stack system
+* Interactive dashboards with live data
+* Clean modular architecture
+
+---
+
+## 🚀 Future Improvements
+
+* JWT-based authentication
+* Model retraining pipeline
+* Advanced anomaly detection (Graph ML)
+* Cloud deployment (AWS / Docker)
+* Real-world dataset integration
+
+---
+
+## 👩‍💻 Author
+
+**Srashti Chauhan**
+B.Tech CSE | Aspiring Software Engineer
+
+---
+
+## ⭐ Support
+
+If you found this project useful, consider giving it a ⭐ on GitHub.
+
+---
