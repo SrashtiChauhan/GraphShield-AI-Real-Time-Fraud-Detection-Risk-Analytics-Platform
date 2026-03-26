@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import Layout from "./components/Layout";
 import Overview from "./pages/Overview";
@@ -18,32 +18,100 @@ function App() {
     <Router>
       <Routes>
 
-        {/* 🔓 PUBLIC ROUTES (NO LOGIN REQUIRED) */}
-        {!isAuthenticated && (
-          <>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+        {/* 🔓 PUBLIC ROUTES */}
+        <Route
+          path="/login"
+          element={!isAuthenticated ? <Login /> : <Navigate to="/" />}
+        />
 
-            {/* default → login */}
-            <Route path="*" element={<Login />} />
-          </>
-        )}
+        <Route
+          path="/signup"
+          element={!isAuthenticated ? <Signup /> : <Navigate to="/" />}
+        />
 
-        {/* 🔐 PROTECTED ROUTES (LOGIN REQUIRED) */}
-        {isAuthenticated && (
-          <>
-            <Route path="/" element={<Layout><Overview /></Layout>} />
-            <Route path="/transactions" element={<Layout><Transactions /></Layout>} />
-            <Route path="/graph" element={<Layout><Graph /></Layout>} />
-            <Route path="/alerts" element={<Layout><Alerts /></Layout>} />
-            <Route path="/investigation" element={<Layout><Investigation /></Layout>} />
-            <Route path="/analytics" element={<Layout><Analytics /></Layout>} />
-            <Route path="/model" element={<Layout><Model /></Layout>} />
+        {/* 🔐 PROTECTED ROUTES */}
+        <Route
+          path="/"
+          element={
+            isAuthenticated ? (
+              <Layout><Overview /></Layout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
 
-            {/* fallback */}
-            <Route path="*" element={<Layout><Overview /></Layout>} />
-          </>
-        )}
+        <Route
+          path="/transactions"
+          element={
+            isAuthenticated ? (
+              <Layout><Transactions /></Layout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        <Route
+          path="/graph"
+          element={
+            isAuthenticated ? (
+              <Layout><Graph /></Layout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        <Route
+          path="/alerts"
+          element={
+            isAuthenticated ? (
+              <Layout><Alerts /></Layout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        <Route
+          path="/investigation"
+          element={
+            isAuthenticated ? (
+              <Layout><Investigation /></Layout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        <Route
+          path="/analytics"
+          element={
+            isAuthenticated ? (
+              <Layout><Analytics /></Layout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        <Route
+          path="/model"
+          element={
+            isAuthenticated ? (
+              <Layout><Model /></Layout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        {/* 🔁 FALLBACK */}
+        <Route
+          path="*"
+          element={<Navigate to={isAuthenticated ? "/" : "/login"} />}
+        />
 
       </Routes>
     </Router>

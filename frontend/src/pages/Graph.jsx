@@ -8,11 +8,7 @@ export default function Graph() {
   useEffect(() => {
     fetchGraph();
 
-    // optional auto refresh (every 5 sec)
-    const interval = setInterval(() => {
-      fetchGraph();
-    }, 5000);
-
+    const interval = setInterval(fetchGraph, 4000);
     return () => clearInterval(interval);
   }, []);
 
@@ -30,33 +26,42 @@ export default function Graph() {
   };
 
   return (
-    <div className="p-4">
+    <div className="h-screen flex flex-col p-4 overflow-hidden">
+      
       <h2 className="text-2xl font-bold mb-4">Fraud Network</h2>
 
-      <div className="bg-white shadow-lg rounded p-2">
+      {/* 🔥 FULL SCREEN GRAPH */}
+      <div className="flex-1 bg-white shadow-lg rounded overflow-hidden">
+
         <ForceGraph2D
           graphData={data}
 
-          // 🎨 auto color by type (user/device)
+          width={window.innerWidth - 300}  // adjust sidebar
+          height={window.innerHeight - 120}
+
           nodeAutoColorBy="type"
 
-          // ✨ animation (looks pro)
           linkDirectionalParticles={2}
-          linkDirectionalParticleSpeed={0.005}
+          linkDirectionalParticleSpeed={0.004}
 
-          // 🖊 label rendering
           nodeCanvasObject={(node, ctx) => {
-            const label = node.label;
+            const label = node.label || node.id;
             ctx.font = "12px Sans-Serif";
             ctx.fillStyle = "black";
             ctx.fillText(label, node.x + 6, node.y + 6);
           }}
 
-          // 🔍 zoom to fit graph
+          nodeColor={(node) => {
+            if (node.risk === "HIGH") return "#ef4444";
+            if (node.type === "device") return "#3b82f6";
+            return "#10b981";
+          }}
+
           onEngineStop={(engine) => {
             engine.zoomToFit(400);
           }}
         />
+
       </div>
     </div>
   );

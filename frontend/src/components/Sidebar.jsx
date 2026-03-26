@@ -10,10 +10,11 @@ export default function Sidebar() {
         <li><Link to="/transactions">Transactions</Link></li>
         <li><Link to="/alerts">Alerts</Link></li>
         <li><Link to="/investigation">Investigation</Link></li>
-        {/* <li><Link to="/network">Fraud Network</Link></li> */}
         <li><Link to="/analytics">Analytics</Link></li>
         <li><Link to="/model">Model Monitor</Link></li>
-        <li><Link to="/graph">Fraud Network</Link></li>
+
+        
+        <li><Link to="/graph" >Fraud Network</Link></li>
       </ul>
     </div>
   );

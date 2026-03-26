@@ -220,3 +220,46 @@ def get_transaction(tx_id: int, db: Session = Depends(get_db)):
         return {"error": "Transaction not found"}
 
     return tx
+
+# =======================
+# 📊 MODEL MONITOR API
+# =======================
+
+@router.get("/model-stats")
+def model_stats(db: Session = Depends(get_db)):
+
+    transactions = db.query(DBTransaction).all()
+
+    total = len(transactions)
+
+    high = sum(1 for t in transactions if t.risk_level == "HIGH")
+    medium = sum(1 for t in transactions if t.risk_level == "MEDIUM")
+    low = sum(1 for t in transactions if t.risk_level == "LOW")
+
+    # 🧠 Fraud ratio
+    fraud_ratio = (high / total * 100) if total > 0 else 0
+
+    # 🤖 Simulated accuracy logic
+    accuracy = 95 - (fraud_ratio * 0.1)
+
+    # 📉 Drift logic
+    if fraud_ratio > 50:
+        drift = "HIGH"
+    elif fraud_ratio > 25:
+        drift = "MEDIUM"
+    else:
+        drift = "LOW"
+
+    # ⚠ Model alert
+    alert = accuracy < 85
+
+    return {
+        "total_transactions": total,
+        "high_risk": high,
+        "medium_risk": medium,
+        "low_risk": low,
+        "accuracy": round(accuracy, 2),
+        "fraud_ratio": round(fraud_ratio, 2),
+        "drift": drift,
+        "model_alert": alert
+    }
