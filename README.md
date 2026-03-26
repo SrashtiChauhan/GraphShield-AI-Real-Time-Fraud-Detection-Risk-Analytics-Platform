@@ -1,50 +1,69 @@
-
 # 🚀 GraphShield AI
 
 ### Real-Time Fraud Detection & Risk Analytics Platform
 
+<p align="center">
+  <img src="assets/overview.png" width="850"/>
+</p>
 
-> A full-stack fraud detection system that combines **Machine Learning, Graph Analytics, and Real-Time Processing** to detect, analyze, and visualize suspicious transactions.
+A full-stack fraud detection platform that leverages machine learning and graph-based analysis to identify, analyze, and visualize suspicious transactions in real time.
+
+---
+
+## 📑 Table of Contents
+
+* Overview
+* Features
+* Technologies Used
+* Screenshots
+* System Workflow
+* Setup
+* Usage
+* Project Structure
+* API Endpoints
+* Future Improvements
+* Contributing
+* License
 
 ---
 
 ## 📌 Overview
 
-GraphShield AI is a real-time fraud detection platform built to simulate and analyze financial transactions using intelligent risk scoring and graph-based relationship tracking.
+GraphShield AI is a real-time fraud detection platform designed to simulate and analyze financial transactions using intelligent risk scoring and graph-based relationship tracking.
 
-The system processes transactions continuously, classifies risk levels, triggers alerts, and provides visual insights through dashboards and network graphs — enabling faster and more accurate fraud investigation.
+The system continuously processes transactions, classifies risk levels, generates alerts, and provides interactive dashboards and network visualizations to support fraud investigation.
 
 ---
 
-## ✨ Key Features
+## ✨ Features
 
-### 🔍 Intelligent Fraud Detection
+### 🔍 Fraud Detection
 
-* ML-based fraud prediction with probability scoring
+* Machine learning-based fraud prediction
 * Risk classification: **Low / Medium / High**
-* Feature preprocessing + explainability
+* Preprocessing and feature engineering pipeline
 
-### ⚡ Real-Time Transaction Engine
+### ⚡ Real-Time Processing
 
 * Continuous transaction simulation
 * Live dashboard updates
-* Event-driven processing pipeline
+* Event-driven architecture
 
-### 🚨 Alert Management System
+### 🚨 Alert System
 
-* Automatic high-risk alert generation
+* Automatic high-risk alerts
 * Timestamped alerts with reasons
 * Investigation-ready interface
 
 ### 🌐 Fraud Network Graph
 
 * Visualizes **User ↔ Device relationships**
-* Detects suspicious clusters and connections
+* Detects suspicious clusters
 * Helps uncover hidden fraud patterns
 
 ### 📊 Analytics Dashboard
 
-* Fraud rate and transaction insights
+* Fraud rate insights
 * Risk distribution visualization
 * Category-based fraud trends
 
@@ -52,72 +71,11 @@ The system processes transactions continuously, classifies risk levels, triggers
 
 * Accuracy tracking over time
 * Fraud ratio monitoring
-* Drift detection (early warning signals)
+* Drift detection
 
 ---
 
-## 📸 Screenshots
-
-### 🔹 Overview Dashboard
-
-<p align="center">
-  <img src="assets/overview.png" width="850"/>
-</p>
-
-### 🔹 Transactions Monitoring
-
-<p align="center">
-  <img src="assets/transactions.png" width="850"/>
-</p>
-
-### 🔹 Fraud Alerts
-
-<p align="center">
-  <img src="assets/alerts.png" width="700"/>
-</p>
-
-### 🔹 Investigation Panel
-
-<p align="center">
-  <img src="assets/investigation.png" width="700"/>
-</p>
-
-### 🔹 Analytics Dashboard
-
-<p align="center">
-  <img src="assets/analytics.png" width="700"/>
-</p>
-
-### 🔹 Model Monitoring
-
-<p align="center">
-  <img src="assets/model.png" width="700"/>
-</p>
-
-### 🔹 Fraud Network Graph
-
-<p align="center">
-  <img src="assets/graph.png" width="700"/>
-</p>
-
----
-
-## 🧠 System Workflow
-
-<p align="center">
-  <img src="assets/workflow.png" width="700"/>
-</p>
-
----
-
-## 🏗️ Tech Stack
-
-### Backend
-
-* FastAPI
-* SQLAlchemy
-* SQLite
-* Uvicorn
+## 🛠️ Technologies Used
 
 ### Frontend
 
@@ -126,6 +84,13 @@ The system processes transactions continuously, classifies risk levels, triggers
 * Recharts
 * React Force Graph
 
+### Backend
+
+* FastAPI
+* SQLAlchemy
+* SQLite
+* Uvicorn
+
 ### Machine Learning
 
 * Scikit-learn
@@ -133,39 +98,64 @@ The system processes transactions continuously, classifies risk levels, triggers
 
 ---
 
-## 📁 Project Structure
+## 📸 Screenshots
 
-```
-GraphShield-AI/
-│
-├── backend/
-│   ├── api/
-│   ├── models/
-│   ├── services/
-│   ├── utils/
-│   └── main.py
-│
-├── frontend/
-│   ├── pages/
-│   ├── components/
-│   └── App.jsx
-│
-├── assets/       
-│   ├── overview.png
-│   ├── transactions.png
-│   ├── alerts.png
-│   ├── investigation.png
-│   ├── analytics.png
-│   ├── model.png
-│   ├── graph.png
-│   └── workflow.png
-│
-└── README.md
-```
+### 🔹 Overview Dashboard
+
+<p align="center">
+  <img src="assets/overview.png" width="750"/>
+</p>
+
+### 🔹 Transactions Monitoring
+
+<p align="center">
+  <img src="assets/transactions.png" width="750"/>
+</p>
+
+### 🔹 Fraud Alerts
+
+<p align="center">
+  <img src="assets/alerts.png" width="750"/>
+</p>
+
+### 🔹 Investigation Panel
+
+<p align="center">
+  <img src="assets/investigation.png" width="750"/>
+</p>
+
+### 🔹 Analytics Dashboard
+
+<p align="center">
+  <img src="assets/analytics.png" width="750"/>
+</p>
+
+### 🔹 Model Monitoring
+
+<p align="center">
+  <img src="assets/model.png" width="750"/>
+</p>
+
+### 🔹 Fraud Network Graph
+
+<p align="center">
+  <img src="assets/graph.png" width="750"/>
+</p>
 
 ---
 
-## ⚙️ Installation & Setup
+## 🧠 System Workflow
+
+Transaction → Preprocessing → ML Model → Risk Classification
+→ Alert Generation → Graph Update → Storage
+
+<p align="center">
+  <img src="assets/workflow.png" width="700"/>
+</p>
+
+---
+
+## ⚙️ Setup
 
 ### 1. Clone Repository
 
@@ -193,7 +183,7 @@ uvicorn backend.main:app --reload
 ```
 
 Backend runs on:
-👉 [http://127.0.0.1:8000](http://127.0.0.1:8000)
+👉 http://127.0.0.1:8000
 
 ---
 
@@ -207,30 +197,75 @@ npm run dev
 ```
 
 Frontend runs on:
-👉 [http://localhost:5173](http://localhost:5173)
+👉 http://localhost:5173
+
+---
+
+## ▶️ Usage
+
+* Monitor transactions in real time
+* Identify high-risk activities
+* Analyze fraud patterns using dashboards
+* Investigate suspicious transactions
+* Explore fraud network relationships
+
+---
+
+## 📁 Project Structure
+
+```
+GraphShield-AI/
+
+backend/
+  api/
+  database/
+  models/
+  services/
+  storage/
+  utils/
+  main.py
+
+frontend/
+  public/
+  src/
+    components/
+    pages/
+    services/
+    App.jsx
+
+data/
+  creditcard.csv
+
+notebooks/
+  eda.ipynb
+  model_training.ipynb
+
+assets/
+  (screenshots & workflow)
+
+README.md
+requirements.txt
+graphshield.db
+```
 
 ---
 
 ## 📡 API Endpoints
 
-| Method | Endpoint      | Description        |
-| ------ | ------------- | ------------------ |
-| POST   | /predict      | Fraud prediction   |
-| GET    | /transactions | Fetch transactions |
-| GET    | /alerts       | Fraud alerts       |
-| GET    | /graph        | Network graph data |
-| GET    | /analytics    | Dashboard insights |
-| GET    | /model-stats  | Model performance  |
+### Prediction
 
----
+* POST `/predict` → Fraud prediction
 
-## 🔥 Highlights
+### Data
 
-* Real-time fraud detection pipeline
-* Graph-based anomaly detection (USP ⭐)
-* End-to-end full-stack system
-* Interactive dashboards with live data
-* Clean modular architecture
+* GET `/transactions` → Fetch transactions
+* GET `/alerts` → Fraud alerts
+* GET `/graph` → Network graph data
+* GET `/analytics` → Dashboard insights
+
+### Model
+
+* GET `/model-stats` → Model performance
 
 ---
 
@@ -238,9 +273,27 @@ Frontend runs on:
 
 * JWT-based authentication
 * Model retraining pipeline
-* Advanced anomaly detection (Graph ML)
+* Graph-based ML models
 * Cloud deployment (AWS / Docker)
 * Real-world dataset integration
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+
+* Fork the repository
+* Create a new branch (`git checkout -b feature-name`)
+* Commit your changes
+* Push to your branch
+* Create a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
 
 ---
 
@@ -254,6 +307,4 @@ B.Tech CSE | Aspiring Software Engineer
 ## ⭐ Support
 
 If you found this project useful, consider giving it a ⭐ on GitHub.
-
----
 
