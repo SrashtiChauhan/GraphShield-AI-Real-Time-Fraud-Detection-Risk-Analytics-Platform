@@ -1,4 +1,4 @@
-# Logs
+npx tailwindcss init -pnpx tailwindcss init -p# Logs
 logs
 *.log
 npm-debug.log*
