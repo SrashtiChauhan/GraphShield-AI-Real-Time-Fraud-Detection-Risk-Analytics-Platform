@@ -295,14 +295,14 @@ Contributions are welcome!
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](LICENSE).
 
 ---
 
 ## 👩‍💻 Author
 
 **Srashti Chauhan**
-B.Tech CSE | Aspiring Software Engineer
+B.Tech CSE | Software Engineer
 
 ---
 
