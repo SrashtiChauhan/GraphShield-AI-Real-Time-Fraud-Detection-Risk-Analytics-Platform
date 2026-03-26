@@ -29,9 +29,11 @@ A full-stack fraud detection platform that leverages machine learning and graph-
 
 ## 📌 Overview
 
-GraphShield AI is a real-time fraud detection platform designed to simulate and analyze financial transactions using intelligent risk scoring and graph-based relationship tracking.
+GraphShield AI is a full-stack fraud detection platform designed to identify and analyze suspicious financial transactions in real time. It combines machine learning with graph-based analysis to move beyond isolated predictions and uncover hidden relationships between users, devices, and activities.
 
-The system continuously processes transactions, classifies risk levels, generates alerts, and provides interactive dashboards and network visualizations to support fraud investigation.
+The system continuously processes transaction data, assigns risk levels, and generates alerts for potentially fraudulent behavior. Alongside this, it provides interactive dashboards and network visualizations that make it easier to understand patterns, investigate anomalies, and take informed action.
+
+By bringing together real-time processing, predictive modeling, and relationship analysis, GraphShield AI offers a practical approach to modern fraud detection—focused not just on identifying risk, but on making it interpretable and actionable.
 
 ---
 
