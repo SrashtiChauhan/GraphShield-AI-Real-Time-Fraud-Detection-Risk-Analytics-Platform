@@ -263,3 +263,61 @@ def model_stats(db: Session = Depends(get_db)):
         "drift": drift,
         "model_alert": alert
     }
+
+# =======================
+# 📊 ADVANCED ANALYTICS API
+# =======================
+# @router.get("/analytics-advanced")
+# def analytics_advanced(db: Session = Depends(get_db)):
+
+#     transactions = db.query(DBTransaction).all()
+
+#     total = len(transactions)
+
+#     high = [t for t in transactions if t.risk_level == "HIGH"]
+#     medium = [t for t in transactions if t.risk_level == "MEDIUM"]
+#     low = [t for t in transactions if t.risk_level == "LOW"]
+
+#     # 📍 location filter data
+#     location_counts = {}
+#     for t in transactions:
+#         location_counts[t.location] = location_counts.get(t.location, 0) + 1
+
+#     location_data = [
+#         {"location": k, "count": v}
+#         for k, v in location_counts.items()
+#     ]
+
+#     # 📅 last 7 transactions (simulate time chart)
+#     last_tx = transactions[-7:]
+#     time_data = [
+#         {"day": f"Day {i+1}", "fraud": 1 if tx.risk_level == "HIGH" else 0}
+#         for i, tx in enumerate(last_tx)
+#     ]
+
+#     # 📊 category simulation
+#     category_data = [
+#         {"category": "Food", "high": 5, "medium": 3},
+#         {"category": "Travel", "high": 8, "medium": 6},
+#         {"category": "Shopping", "high": 12, "medium": 9},
+#         {"category": "Bills", "high": 4, "medium": 2},
+#     ]
+
+#     # 🧠 ML insights
+#     insights = [
+#         "High transactions detected in Bangalore",
+#         "Frequent device switching observed",
+#         "Spike in large transactions (>3000)",
+#         "Unusual behavior detected in last hour"
+#     ]
+
+#     return {
+#         "total": total,
+#         "high": len(high),
+#         "medium": len(medium),
+#         "low": len(low),
+#         "locations": location_data,
+#         "time_data": time_data,
+#         "categories": category_data,
+#         "insights": insights
+#     }
