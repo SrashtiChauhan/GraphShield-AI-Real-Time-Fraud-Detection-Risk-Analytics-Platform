@@ -3,9 +3,6 @@
 
 ### Real-Time Fraud Detection & Risk Analytics Platform
 
-<p align="center">
-  <img src="assets/overview.png" width="900"/>
-</p>
 
 > A full-stack fraud detection system that combines **Machine Learning, Graph Analytics, and Real-Time Processing** to detect, analyze, and visualize suspicious transactions.
 
@@ -76,42 +73,39 @@ The system processes transactions continuously, classifies risk levels, triggers
 ### 🔹 Fraud Alerts
 
 <p align="center">
-  <img src="assets/alerts.png" width="850"/>
+  <img src="assets/alerts.png" width="700"/>
 </p>
 
 ### 🔹 Investigation Panel
 
 <p align="center">
-  <img src="assets/investigation.png" width="850"/>
+  <img src="assets/investigation.png" width="700"/>
 </p>
 
 ### 🔹 Analytics Dashboard
 
 <p align="center">
-  <img src="assets/analytics.png" width="850"/>
+  <img src="assets/analytics.png" width="700"/>
 </p>
 
 ### 🔹 Model Monitoring
 
 <p align="center">
-  <img src="assets/model.png" width="850"/>
+  <img src="assets/model.png" width="700"/>
 </p>
 
 ### 🔹 Fraud Network Graph
 
 <p align="center">
-  <img src="assets/graph.png" width="850"/>
+  <img src="assets/graph.png" width="700"/>
 </p>
 
 ---
 
 ## 🧠 System Workflow
 
-Transaction → Preprocessing → ML Model → Risk Classification
-→ Alert Generation → Graph Update → Storage
-
 <p align="center">
-  <img src="assets/workflow.png" width="800"/>
+  <img src="assets/workflow.png" width="700"/>
 </p>
 
 ---
@@ -156,7 +150,7 @@ GraphShield-AI/
 │   ├── components/
 │   └── App.jsx
 │
-├── assets/        # screenshots for README
+├── assets/       
 │   ├── overview.png
 │   ├── transactions.png
 │   ├── alerts.png
