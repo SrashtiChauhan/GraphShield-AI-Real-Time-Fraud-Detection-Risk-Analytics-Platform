@@ -4,16 +4,6 @@ import API from "../services/api";
 export default function Transactions() {
   const [transactions, setTransactions] = useState([]);
 
-  useEffect(() => {
-    fetchTransactions();
-
-    const interval = setInterval(() => {
-      fetchTransactions();
-    }, 3000); // every 3 sec
-
-    return () => clearInterval(interval);
-  }, []);
-
   const fetchTransactions = async () => {
     try {
       const res = await API.get("/transactions");
@@ -22,6 +12,13 @@ export default function Transactions() {
       console.error("Error fetching transactions:", err);
     }
   };
+
+  useEffect(() => {
+    fetchTransactions();
+
+    const interval = setInterval(fetchTransactions, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="p-4">
@@ -38,6 +35,7 @@ export default function Transactions() {
       <table className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
         <thead className="bg-gray-200">
           <tr>
+            <th className="p-2">ID</th>
             <th className="p-2">User</th>
             <th className="p-2">Amount</th>
             <th className="p-2">Location</th>
@@ -46,7 +44,7 @@ export default function Transactions() {
         </thead>
 
         <tbody>
-          {transactions.map((tx, index) => {
+          {transactions.map((tx) => {
             let colorClass = "";
 
             if (tx.risk_level === "HIGH") {
@@ -58,13 +56,16 @@ export default function Transactions() {
             }
 
             return (
-              <tr key={index} className="text-center border-t hover:bg-gray-50">
+              <tr key={tx.id} className="text-center border-t hover:bg-gray-50">
+                <td className="p-2">{tx.id}</td>
                 <td className="p-2">{tx.user_id}</td>
                 <td className="p-2 font-semibold">₹{tx.amount}</td>
                 <td className="p-2">{tx.location}</td>
 
                 <td className="p-2">
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${colorClass}`}>
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${colorClass}`}
+                  >
                     {tx.risk_level}
                   </span>
                 </td>

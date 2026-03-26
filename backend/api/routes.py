@@ -14,7 +14,7 @@ from backend.utils.risk_engine import classify_risk
 from backend.services.alert_service import generate_alert
 from backend.services.behavior_service import detect_behavior_anomaly
 from backend.utils.explainability import explain_prediction
-from backend.utils.preprocessing import preprocess_transaction
+from backend.utils.preprocessing import preprocess_transaction, create_features
 
 # Graph + Stream
 from backend.services.graph_service import (
@@ -25,7 +25,6 @@ from backend.services.graph_service import (
 from backend.services.stream_service import generate_transaction
 
 router = APIRouter()
-
 
 # =======================
 # 📊 GRAPH API
@@ -41,46 +40,48 @@ def graph():
 class Transaction(BaseModel):
     user_id: int
     device_id: str
-    features: List[float]
+    amount: float
+    location: str
 
 
 # =======================
-# 🤖 PREDICTION API (ML + GRAPH + DB + ALERT)
+# 🤖 PREDICT API
 # =======================
 @router.post("/predict")
 def predict(transaction: Transaction, db: Session = Depends(get_db)):
 
-    # ML prediction
-    features = preprocess_transaction(transaction.features)
-    result = predict_fraud(features)
+    # feature engineering
+    features = create_features(transaction.dict())
+    features = preprocess_transaction(features)
 
+    # ML
+    result = predict_fraud(features)
     fraud_probability = result["fraud_probability"]
     prediction = result["prediction"]
 
-    # risk classification
+    # risk
     risk_level = classify_risk(fraud_probability)
 
-    # alert generation
+    # alert logic
     alert_info = generate_alert(fraud_probability, risk_level)
 
-    # behavior analysis
-    amount = transaction.features[-1]
-    avg_amount = 200
-    behavior = detect_behavior_anomaly(amount, avg_amount)
+    # behavior
+    amount = transaction.amount
+    behavior = detect_behavior_anomaly(amount, 200)
 
-    # graph fraud detection
+    # graph
     graph_add_transaction(transaction.user_id, transaction.device_id)
     graph_result = detect_suspicious_device(transaction.device_id)
 
     # explainability
-    explanation = explain_prediction(transaction.features)
+    explanation = explain_prediction(features)
 
-    # ✅ STORE TRANSACTION IN DB
+    # save transaction
     new_tx = DBTransaction(
         user_id=transaction.user_id,
         device_id=transaction.device_id,
         amount=amount,
-        location="India",
+        location=transaction.location,
         fraud_probability=fraud_probability,
         risk_level=risk_level
     )
@@ -89,14 +90,15 @@ def predict(transaction: Transaction, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_tx)
 
-    # 🚨 STORE ALERT (ONLY HIGH RISK)
-    if risk_level == "HIGH":
+    # =======================
+    # 🚨 FIXED ALERT LOGIC
+    # =======================
+    if alert_info["alert"] or risk_level == "HIGH":
         new_alert = DBAlert(
             transaction_id=new_tx.id,
             risk_level=risk_level,
-            reason=alert_info["message"]
+            reason=alert_info["message"] or "High risk transaction detected"
         )
-
         db.add(new_alert)
         db.commit()
 
@@ -115,7 +117,7 @@ def predict(transaction: Transaction, db: Session = Depends(get_db)):
 
 
 # =======================
-# 🔄 REAL-TIME TRANSACTIONS (STORE IN DB)
+# 🔄 REAL-TIME TRANSACTIONS
 # =======================
 @router.post("/transaction")
 def create_transaction(db: Session = Depends(get_db)):
@@ -130,10 +132,10 @@ def create_transaction(db: Session = Depends(get_db)):
     else:
         risk = "LOW"
 
-    # graph update
+    # graph
     graph_add_transaction(tx["user_id"], tx["device_id"])
 
-    # store in DB
+    # store transaction
     new_tx = DBTransaction(
         user_id=tx["user_id"],
         device_id=tx["device_id"],
@@ -145,6 +147,19 @@ def create_transaction(db: Session = Depends(get_db)):
 
     db.add(new_tx)
     db.commit()
+    db.refresh(new_tx)
+
+    # =======================
+    # 🚨 ADD ALERT HERE ALSO
+    # =======================
+    if risk == "HIGH":
+        new_alert = DBAlert(
+            transaction_id=new_tx.id,
+            risk_level=risk,
+            reason="High risk transaction detected"
+        )
+        db.add(new_alert)
+        db.commit()
 
     return {"message": "Transaction stored"}
 
@@ -155,14 +170,12 @@ def create_transaction(db: Session = Depends(get_db)):
 @router.get("/transactions")
 def get_transactions(db: Session = Depends(get_db)):
 
-    transactions = (
+    return (
         db.query(DBTransaction)
         .order_by(DBTransaction.id.desc())
         .limit(10)
         .all()
     )
-
-    return transactions
 
 
 # =======================
@@ -171,37 +184,32 @@ def get_transactions(db: Session = Depends(get_db)):
 @router.get("/alerts")
 def get_alerts(db: Session = Depends(get_db)):
 
-    alerts = (
+    return (
         db.query(DBAlert)
         .order_by(DBAlert.id.desc())
         .limit(10)
         .all()
     )
 
-    return alerts
 
+# =======================
+# 📊 ANALYTICS
+# =======================
 @router.get("/analytics")
 def get_analytics(db: Session = Depends(get_db)):
 
     transactions = db.query(DBTransaction).all()
 
-    total = len(transactions)
-
-    high = len([t for t in transactions if t.risk_level == "HIGH"])
-    medium = len([t for t in transactions if t.risk_level == "MEDIUM"])
-    low = len([t for t in transactions if t.risk_level == "LOW"])
-
     return {
-        "total_transactions": total,
-        "high_risk": high,
-        "medium_risk": medium,
-        "low_risk": low
+        "total_transactions": len(transactions),
+        "high_risk": len([t for t in transactions if t.risk_level == "HIGH"]),
+        "medium_risk": len([t for t in transactions if t.risk_level == "MEDIUM"]),
+        "low_risk": len([t for t in transactions if t.risk_level == "LOW"]),
     }
 
 
 # =======================
-# =======================
-# 🔍 GET SINGLE TRANSACTION
+# 🔍 GET SINGLE TX
 # =======================
 @router.get("/transaction/{tx_id}")
 def get_transaction(tx_id: int, db: Session = Depends(get_db)):

@@ -4,7 +4,7 @@ from backend.api.auth_routes import router as auth_router
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.database.db import engine, SessionLocal
-from backend.models.models import Base, Transaction
+from backend.models.models import Base, Transaction, Alert
 import backend.models.models
 
 # streaming imports
@@ -50,20 +50,47 @@ def background_transaction_stream():
     while True:
         tx = generate_transaction()
 
-        # store in DB
+        # =========================
+        # 🧠 RISK LOGIC
+        # =========================
+        if tx["amount"] > 3000:
+            risk = "HIGH"
+        elif tx["amount"] > 1000:
+            risk = "MEDIUM"
+        else:
+            risk = "LOW"
+
+        # =========================
+        # 💳 STORE TRANSACTION
+        # =========================
         new_tx = Transaction(
             user_id=tx["user_id"],
             device_id=tx["device_id"],
             amount=tx["amount"],
             location=tx["location"],
             fraud_probability=0.5,
-            risk_level=tx["risk_level"]
+            risk_level=risk
         )
 
         db.add(new_tx)
         db.commit()
+        db.refresh(new_tx)
 
-        # update graph
+        # =========================
+        # 🚨 CREATE ALERT (FIX)
+        # =========================
+        if risk == "HIGH":
+            new_alert = Alert(
+                transaction_id=new_tx.id,
+                risk_level=risk,
+                reason="High risk transaction detected"
+            )
+            db.add(new_alert)
+            db.commit()
+
+        # =========================
+        # 🌐 GRAPH UPDATE
+        # =========================
         add_transaction(tx["user_id"], tx["device_id"])
 
         print("STREAM TX:", tx)
