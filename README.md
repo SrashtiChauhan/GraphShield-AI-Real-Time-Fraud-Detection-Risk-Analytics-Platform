@@ -1,4 +1,4 @@
-# 🚀 GraphShield AI 
+<img width="1536" height="1024" alt="ChatGPT Image Mar 26, 2026, 06_17_12 PM" src="https://github.com/user-attachments/assets/50c3cd81-7b13-40c3-beaf-2c286a2e9c17" /># 🚀 GraphShield AI 
 
 ### Real-Time Fraud Detection & Risk Analytics Platform
 
@@ -196,6 +196,8 @@ Frontend runs on:
 ```
 Transaction → Preprocessing → ML Model → Risk Classification
            → Alert Generation → Graph Update → Storage
+
+![Workflow](./assets/workflow.png)
 ```
 
 ---
