@@ -1,8 +1,10 @@
-<img width="1536" height="1024" alt="ChatGPT Image Mar 26, 2026, 06_17_12 PM" src="https://github.com/user-attachments/assets/50c3cd81-7b13-40c3-beaf-2c286a2e9c17" /># 🚀 GraphShield AI 
+# 🚀 GraphShield AI
 
 ### Real-Time Fraud Detection & Risk Analytics Platform
 
-![Overview](./assets/overview.png)
+<p align="center">
+  <img src="assets/overview.png" width="900"/>
+</p>
 
 > A full-stack fraud detection system that combines **Machine Learning, Graph Analytics, and Real-Time Processing** to detect, analyze, and visualize suspicious transactions.
 
@@ -60,31 +62,56 @@ The system processes transactions continuously, classifies risk levels, triggers
 
 ### 🔹 Overview Dashboard
 
-![Overview](./assets/overview.png)
+<p align="center">
+  <img src="assets/overview.png" width="850"/>
+</p>
 
 ### 🔹 Transactions Monitoring
 
-![Transactions](./assets/transactions.png)
+<p align="center">
+  <img src="assets/transactions.png" width="850"/>
+</p>
 
 ### 🔹 Fraud Alerts
 
-![Alerts](./assets/alerts.png)
+<p align="center">
+  <img src="assets/alerts.png" width="850"/>
+</p>
 
 ### 🔹 Investigation Panel
 
-![Investigation](./assets/investigation.png)
+<p align="center">
+  <img src="assets/investigation.png" width="850"/>
+</p>
 
 ### 🔹 Analytics Dashboard
 
-![Analytics](./assets/analytics.png)
+<p align="center">
+  <img src="assets/analytics.png" width="850"/>
+</p>
 
 ### 🔹 Model Monitoring
 
-![Model](./assets/model.png)
+<p align="center">
+  <img src="assets/model.png" width="850"/>
+</p>
 
 ### 🔹 Fraud Network Graph
 
-![Graph](./assets/graph.png)
+<p align="center">
+  <img src="assets/graph.png" width="850"/>
+</p>
+
+---
+
+## 🧠 System Workflow
+
+Transaction → Preprocessing → ML Model → Risk Classification
+→ Alert Generation → Graph Update → Storage
+
+<p align="center">
+  <img src="assets/workflow.png" width="800"/>
+</p>
 
 ---
 
@@ -129,6 +156,15 @@ GraphShield-AI/
 │   └── App.jsx
 │
 ├── assets/        # screenshots for README
+│   ├── overview.png
+│   ├── transactions.png
+│   ├── alerts.png
+│   ├── investigation.png
+│   ├── analytics.png
+│   ├── model.png
+│   ├── graph.png
+│   └── workflow.png
+│
 └── README.md
 ```
 
@@ -151,6 +187,8 @@ cd GraphShield-AI-Real-Time-Fraud-Detection-Risk-Analytics-Platform
 cd backend
 
 python -m venv venv
+
+# Activate environment
 venv\Scripts\activate        # Windows
 # source venv/bin/activate   # Mac/Linux
 
@@ -188,17 +226,6 @@ Frontend runs on:
 | GET    | /graph        | Network graph data |
 | GET    | /analytics    | Dashboard insights |
 | GET    | /model-stats  | Model performance  |
-
----
-
-## 🧠 System Workflow
-
-```
-Transaction → Preprocessing → ML Model → Risk Classification
-           → Alert Generation → Graph Update → Storage
-
-![Workflow](./assets/workflow.png)
-```
 
 ---
 
