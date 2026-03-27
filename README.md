@@ -2,9 +2,9 @@
 
 ### Real-Time Fraud Detection & Risk Analytics Platform
 
-<p align="center">
+<!-- <p align="center">
   <img src="assets/overview.png" width="850"/>
-</p>
+</p> -->
 
 A full-stack fraud detection platform that leverages machine learning and graph-based analysis to identify, analyze, and visualize suspicious transactions in real time.
 
